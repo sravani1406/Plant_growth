@@ -36,7 +36,7 @@ Fertilizer_Type = st.sidebar.selectbox("Fertilizer Type", options=["organic", "c
 
 # Function to preprocess input data
 def preprocess_input(sunlight_hours, temperature, humidity, soil_type, water_frequency, fertilizer_type):
-    # Create DataFrame with numerical features (names must match training!)
+    # Create DataFrame with numerical features
     data = {
         'Sunlight_Hours': sunlight_hours,
         'Temperature': temperature,
@@ -44,7 +44,7 @@ def preprocess_input(sunlight_hours, temperature, humidity, soil_type, water_fre
     }
     df = pd.DataFrame([data])
 
-    # One-hot encoding with exact training column names
+    # One-hot encoding with lowercase values
     soil_options = ['clay', 'sandy', 'loam']
     for soil in soil_options:
         df[f'Soil_Type_{soil}'] = 1 if soil_type.lower() == soil else 0
@@ -57,14 +57,10 @@ def preprocess_input(sunlight_hours, temperature, humidity, soil_type, water_fre
     for fertilizer in fertilizer_options:
         df[f'Fertilizer_Type_{fertilizer}'] = 1 if fertilizer_type.lower() == fertilizer else 0
 
-    # Ensure all expected columns are present in the correct order
-    expected_columns = [
-        'Sunlight_Hours', 'Temperature', 'Humidity',
-        'Soil_Type_clay', 'Soil_Type_sandy', 'Soil_Type_loam',
-        'Water_Frequency_daily', 'Water_Frequency_weekly', 'Water_Frequency_bi-weekly',
-        'Fertilizer_Type_organic', 'Fertilizer_Type_chemical', 'Fertilizer_Type_none'
-    ]
-    df = df.reindex(columns=expected_columns, fill_value=0)
+    # Align columns with model’s training order
+    if hasattr(logreg, "feature_names_in_"):
+        expected_columns = list(logreg.feature_names_in_)
+        df = df.reindex(columns=expected_columns, fill_value=0)
 
     return df
 
