@@ -36,12 +36,12 @@ Fertilizer_Type = st.sidebar.selectbox("Fertilizer Type", options=["organic", "c
 
 
 # Function to preprocess input data
-def preprocess_input(sunlight_hours, temperature, humidity, soil_type, water_frequency, fertilizer_type):
+def preprocess_input(Sunlight_hours, Temperature, Humidity, Soil_Type, Water_Frequency, Fertilizer_Type):
     # Create a DataFrame with numerical features
     data = {
-        'Sunlight Hours': sunlight_hours,
-        'Temperature': temperature,
-        'Humidity': humidity
+        'Sunlight Hours': Sunlight_hours,
+        'Temperature': Temperature,
+        'Humidity': Humidity
     }
     df = pd.DataFrame([data])
 
@@ -50,17 +50,17 @@ def preprocess_input(sunlight_hours, temperature, humidity, soil_type, water_fre
     # Initialize soil_type columns
     Soil_Type = ['Clay', 'Sandy', 'Loamy']
     for soil in Soil_Type:
-        df[f'Soil_Type_{soil}'] = 1 if soil_type == soil else 0
+        df[f'Soil_Type_{soil}'] = 1 if Soil_Type == soil else 0
 
     # Initialize water frequency columns
     Water_Frequency = ['Daily', 'Weekly', 'Bi-Weekly']
     for water in Water_Frequency:
-        df[f'Water_Frequency_{water}'] = 1 if water_frequency == water else 0
+        df[f'Water_Frequency_{water}'] = 1 if Water_Frequency == water else 0
 
     # Initialize fertilizer type columns
     Fertilizer_Type = ['organic', 'chemical', 'none']
     for fertilizer in Fertilizer_Type:
-        df[f'Fertilizer_Type_{fertilizer}'] = 1 if fertilizer_type == fertilizer else 0
+        df[f'Fertilizer_Type_{fertilizer}'] = 1 if Fertilizer_Type == fertilizer else 0
 
     return df
    
